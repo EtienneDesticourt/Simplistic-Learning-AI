@@ -22,7 +22,7 @@ class Being(object):
         self.running = False
         self.scary = ["Black ball"] #instinctive fear of Black ball
         self.memories = []
-        self.associations = {}
+        self.associations = {} #dictionnary of dictionnaries keys are concepts in both depth levels and item is association strength
     #Senses
     def sense(self):
         pass
@@ -43,17 +43,17 @@ class Being(object):
             self.memories.append(sensed)
             #Recall learned patterns
             #We can override our instincts through discipline and practice therefore instinct should take interpretation as input but that means instinct should do feeling -> action only. Or no, maybe instincts are weighted associations hardcoded, therefore they can be weakened.
-            if sensed in self.associations and recollectionLevel < 1: #Potential lowers as we go from memory to memory, eventually no new memory can be activated. Pretty 
+            if sensed in self.associations and recollectionLevel < 1: #Potential lowers as we go from memory to memory, eventually no new memory can be activated. Hardcoded depth of 1 max
                 #How to transform event in stimuli? Pass recollection through instinct? No keep stimuli in events
                 #After all feeling feel is a perception
                 for association in self.associations[sensed]:
-                    if self.associations[sensed][association] >= 0.2:
+                    if self.associations[sensed][association] >= 0.2: #hardcoded activation sensitivity
                         print("I recall "+association+".")
                         self.sense(association, recollectionLevel+1) #Recollections are felt up to a point
             
             return sensed
         return func
-    #Hardcoded behaviour rules
+    #Hardcoded behaviour rules (switch to hardcoded in associations later, I think)
     def instinct(self, sense): #Instinct bypasses interpretatin, even if their association weight can be lowered
         def func(*args): #By making instinct a wrapper of sense we catch them all easily, maybe we should do same with learn
             sensed = sense(*args)
